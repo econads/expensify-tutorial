@@ -28,8 +28,11 @@ const setCount = ( {count} = {}) => ({
     count
 });
 
+//Reducer
+// - pure functions (output depends *only* on input)
+// - State and Action are NEVER directly changed, only duplicates.
 
-const store = createStore((state = { count: 0}, action) => {
+const countReducer = (state = { count: 0}, action) => {
     console.log('running');
 
     switch (action.type){
@@ -53,7 +56,9 @@ const store = createStore((state = { count: 0}, action) => {
         default: 
         return state;
     }
-});
+};
+
+const store = createStore(countReducer);
 
 //returns unsubscribe function
 const unsubscribe = store.subscribe(() => {
