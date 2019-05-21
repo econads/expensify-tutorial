@@ -20,6 +20,13 @@ const removeExpense = ({ id } = {}) => ({
         id
     });
 
+//EDIT_EXPENSE
+const editExpense = (id, updates ) => ({
+    type: 'EDIT_EXPENSE',
+    id,
+    updates
+});
+
 //Expenses Reducer
 const expensesReducerDefaultState = [];
 
@@ -34,6 +41,18 @@ const expensesReducer = (state = expensesReducerDefaultState, action) => {
             // console.log(action);
             // return state.filter((expense) => action.id !== expense.id);
             return state.filter(({ id }) => action.id !== id);
+        case 'EDIT_EXPENSE':
+            return state.map((expense) => {
+                if(expense.id === action.id) {
+                    return {
+                        //Copy expense and override anything in updates
+                        ...expense,
+                        ...action.updates
+                    };
+                } else {
+                    return expense;
+                }
+            })
         default: 
             return state;
     }
@@ -70,6 +89,7 @@ const expense1 = store.dispatch(addExpense({description: 'Rent', amount: 100 }))
 const expense2 = store.dispatch(addExpense({description: 'Food', amount: 1900 }));
 
 store.dispatch(removeExpense({id: expense1.expense.id}));
+store.dispatch(editExpense( expense2.expense.id, { amount: 500 }));
 
 const demoState = {
     expenses: [{
@@ -86,3 +106,15 @@ const demoState = {
         endDate: undefined
     }
 };
+
+//Object spread operator (clone)
+// const user = {
+//     name: 'Jen',
+//     age: 24
+// };
+
+// console.log({
+//     ...user,
+//     location: 'Boston',
+//     age: 34
+// });
