@@ -61,9 +61,15 @@ const getVisibleExpenses = (expenses, {text, sortBy, startDate, endDate}) => {
     return expenses.filter((expense) => {
         const startDateMatch = typeof startDate !== 'number' || expense.createdAt >= startDate;
         const endDateMatch = typeof endDate !== 'number' || expense.createdAt <= endDate;
-        const textMatch = true;
+        const textMatch = expense.description.toLowerCase().includes(text.toLowerCase());
 
         return startDateMatch && endDateMatch && textMatch;
+    }).sort((a, b) => {
+        if(sortBy === 'date') {
+            return a.createdAt < b.createdAt ? 1 : -1;
+        } else if(sortBy === 'amount'){
+            return a.amount < b.amount ? 1 : -1;
+        }
     });
 };
 
@@ -157,16 +163,16 @@ const expense2 = store.dispatch(addExpense({description: 'Food', amount: 1900, c
 // store.dispatch(editExpense( expense2.expense.id, { amount: 500 }));
 
 // console.log('filtering rent');
-// store.dispatch(setTextFilter('rent'));
+// store.dispatch(setTextFilter('ent'));
 // store.dispatch(setTextFilter());
 
-// store.dispatch(sortByAmount());
+store.dispatch(sortByAmount());
 // store.dispatch(sortByDate());
 
-store.dispatch(setStartDate(0));
+// store.dispatch(setStartDate(0));
 // store.dispatch(setStartDate());  //undefined
 
-store.dispatch(setEndDate(99));
+// store.dispatch(setEndDate(99));
 
 const demoState = {
     expenses: [{
