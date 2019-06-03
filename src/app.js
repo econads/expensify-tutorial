@@ -10,12 +10,15 @@ import {setTextFilter} from './actions/filters';
 
 const store = configureStore();
 
+//subscribe has to go before - this is a script not compiled
+store.subscribe(() => {
+    const state = store.getState();
+    const visibleExpenses = getVisibleExpenses(state.expenses, state.filters);
+    console.log("Visible", visibleExpenses);
+});
+
 const expense1 = store.dispatch(addExpense({description: 'water bill' }));
 const expense2 = store.dispatch(addExpense({description: 'Gas bill' }));
 store.dispatch(setTextFilter('Gas'));
-
-console.log(store.getState());
-console.log(getVisibleExpenses());
-
 
 ReactDOM.render(<AppRouter/>, document.getElementById('app'));
