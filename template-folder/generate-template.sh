@@ -62,6 +62,7 @@ yarn add sass-loader@6.0.6 node-sass@4.5.3
 yarn add normalize.css@7.0.0
 yarn add uuid@3.1.0
 yarn add babel-plugin-transform-object-rest-spread@6.23.0
+yarn add react-redux@5.0.5
 
 echo "const path = require('path');
 
